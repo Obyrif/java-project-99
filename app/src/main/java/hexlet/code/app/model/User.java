@@ -39,7 +39,10 @@ public class User implements UserDetails, BaseEntity {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Column(unique = true)
     private String firstName;
+
+    @Column(unique = true)
     private String lastName;
 
     @Column(unique = true)
