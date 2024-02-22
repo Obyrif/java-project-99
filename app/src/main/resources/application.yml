@@ -1,9 +1,16 @@
+logging:
+  level:
+    root: WARN
+
 spring:
   jpa:
+    generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
-
+  output:
+      ansi:
+        enabled: always
 
 rsa:
   private-key: classpath:certs/private.pem
