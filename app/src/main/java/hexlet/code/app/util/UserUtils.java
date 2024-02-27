@@ -2,11 +2,13 @@ package hexlet.code.app.util;
 
 import hexlet.code.app.model.User;
 import hexlet.code.app.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class UserUtils {
     @Autowired
     private UserRepository userRepository;
@@ -16,7 +18,6 @@ public class UserUtils {
         if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
-        var email = authentication.getName();
-        return userRepository.findByEmail(email).get();
+        return userRepository.findByEmail(authentication.getName()).get();
     }
 }

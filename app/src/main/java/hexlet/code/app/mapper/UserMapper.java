@@ -1,10 +1,11 @@
 package hexlet.code.app.mapper;
 
-import hexlet.code.app.dto.UserCreateDTO;
-import hexlet.code.app.dto.UserDTO;
-import hexlet.code.app.dto.UserUpdateDTO;
+import hexlet.code.app.dto.user.UserCreateDTO;
+import hexlet.code.app.dto.user.UserDTO;
+import hexlet.code.app.dto.user.UserUpdateDTO;
 import hexlet.code.app.model.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -23,13 +24,14 @@ public abstract class UserMapper {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Mapping(target = "passwordDigest", source = "password")
     public abstract User map(UserCreateDTO dto);
     public abstract UserDTO map(User model);
     public abstract void update(UserUpdateDTO userDTO, @MappingTarget User model);
 
     @BeforeMapping
     public void encryptPassword(UserCreateDTO data) {
-        var password = data.getPasswordDigest();
-        data.setPasswordDigest(passwordEncoder.encode(password));
+        var password = data.getPassword();
+        data.setPassword(passwordEncoder.encode(password));
     }
 }

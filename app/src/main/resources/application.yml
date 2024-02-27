@@ -1,6 +1,9 @@
 logging:
   level:
-    root: WARN
+    org:
+      springframework:
+        security: DEBUG
+        root: WARN
 
 spring:
   jpa:

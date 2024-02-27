@@ -47,13 +47,11 @@ public class User implements UserDetails, BaseEntity {
 
     @Column(unique = true)
     @Email
+    @ToString.Include
     private String email;
 
     @NotNull
     @Size(min = 3)
-    private String password;
-
-    @NotNull
     private String passwordDigest;
 
     @LastModifiedDate
