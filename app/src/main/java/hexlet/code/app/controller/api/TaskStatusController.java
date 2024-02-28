@@ -1,0 +1,51 @@
+package hexlet.code.app.controller.api;
+
+
+import hexlet.code.app.dto.taskStatus.TaskStatusCreateDTO;
+import hexlet.code.app.dto.taskStatus.TaskStatusDTO;
+import hexlet.code.app.dto.taskStatus.TaskStatusUpdateDTO;
+import hexlet.code.app.service.TaskStatusService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
+public class TaskStatusController {
+
+    @Autowired
+    private TaskStatusService taskStatusService;
+
+    @GetMapping("/task_statuses")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskStatusDTO> index() {
+        return taskStatusService.getAllTaskStatus();
+    }
+
+    @GetMapping("/task_statuses/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskStatusDTO show(@PathVariable Long id) {
+        return taskStatusService.getTaskStatusById(id);
+    }
+
+    @PostMapping("/task_statuses")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO statusData) {
+        return taskStatusService.createTaskStatus(statusData);
+    }
+
+    @PutMapping("/task_statuses/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TaskStatusDTO update(@RequestBody @Valid TaskStatusUpdateDTO statusData, @PathVariable Long id) {
+        return taskStatusService.updateTaskStatus(statusData, id);
+    }
+
+    @DeleteMapping("/task_statuses/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        taskStatusService.delete(id);
+    }
+}
