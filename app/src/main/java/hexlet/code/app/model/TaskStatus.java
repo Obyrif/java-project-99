@@ -1,6 +1,6 @@
 package hexlet.code.app.model;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,17 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 public class TaskStatus implements BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
     @Column(unique = true)
     @Size(min = 1)
