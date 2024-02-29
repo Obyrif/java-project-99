@@ -1,11 +1,6 @@
 package hexlet.code.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-import jakarta.persistence.EntityListeners;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -38,6 +34,9 @@ public class User implements UserDetails, BaseEntity {
     @ToString.Include
     @EqualsAndHashCode.Include
     private Long id;
+
+    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
 
     @Column(unique = true)
     private String firstName;
@@ -59,6 +58,16 @@ public class User implements UserDetails, BaseEntity {
 
     @CreatedDate
     private LocalDate createdAt; // дата создания (регистрации) пользователя
+
+    public void addTask(Task task) {
+        tasks.add(task);
+        task.setAssignee(this);
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        task.setAssignee(null);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

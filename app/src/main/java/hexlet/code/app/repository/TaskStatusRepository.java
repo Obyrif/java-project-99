@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TaskStatusRepository extends JpaRepository<TaskStatus, Long> {
-    List<TaskStatus> findTaskStatusBySlug(String slug);
+    List<TaskStatus> findBySlug(String slug);
 }
