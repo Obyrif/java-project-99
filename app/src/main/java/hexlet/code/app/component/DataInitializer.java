@@ -2,7 +2,10 @@ package hexlet.code.app.component;
 
 import hexlet.code.app.dto.user.UserCreateDTO;
 import hexlet.code.app.mapper.UserMapper;
+import hexlet.code.app.model.User;
 import hexlet.code.app.repository.UserRepository;
+import hexlet.code.app.service.CustomUserDetailsService;
+import hexlet.code.app.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -16,13 +19,16 @@ public class DataInitializer implements ApplicationRunner {
     private UserRepository userRepository;
 
     @Autowired
-    private UserMapper userMapper;
+    private CustomUserDetailsService userService;
+
     @Override
     public void run(ApplicationArguments args) {
-        var userData = new UserCreateDTO();
-        userData.setEmail("hexlet@example.com");
-        userData.setPassword("qwerty");
-        var user = userMapper.map(userData);
-        userRepository.save(user);
+        var email = "hexlet@example.com";
+        var userData = new User();
+        userData.setEmail(email);
+        userData.setPasswordDigest("qwerty");
+        userService.createUser(userData);
+
+        var user = userRepository.findByEmail(email).get();
     }
 }
