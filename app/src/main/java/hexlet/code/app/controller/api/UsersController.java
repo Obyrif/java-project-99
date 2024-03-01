@@ -4,6 +4,8 @@ import hexlet.code.app.dto.user.UserCreateDTO;
 import hexlet.code.app.dto.user.UserDTO;
 import hexlet.code.app.dto.user.UserUpdateDTO;
 import hexlet.code.app.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Пользователи", description = "Методы для работы с пользователями")
 public class UsersController {
 
     @Autowired
@@ -29,6 +32,7 @@ public class UsersController {
 
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Вывод всех пользователей")
     public ResponseEntity<List<UserDTO>> index() {
        var users = userService.getAllUsers();
        return ResponseEntity.ok()
@@ -38,17 +42,20 @@ public class UsersController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Создание пользователя")
     public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
         return userService.createUser(userData);
     }
 
     @GetMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получение пользователя по идентификатору")
     public UserDTO show(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PutMapping("/users/{id}")
+    @Operation(summary = "Обновление пользователя")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@RequestBody @Valid UserUpdateDTO userData, @PathVariable Long id) {
         return userService.updateUser(userData, id);
@@ -56,6 +63,7 @@ public class UsersController {
 
     @DeleteMapping("/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Удаление пользователя")
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }

@@ -52,6 +52,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+    implementation ("org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0")
+    implementation ("io.swagger.core.v3:swagger-annotations:2.2.8")
+    implementation ("org.springdoc:springdoc-openapi-ui:1.6.14")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
     testImplementation("org.springframework.security:spring-security-test")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

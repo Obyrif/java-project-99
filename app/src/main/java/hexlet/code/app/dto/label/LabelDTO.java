@@ -1,4 +1,4 @@
-package hexlet.code.app.dto.taskStatus;
+package hexlet.code.app.dto.label;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -8,14 +8,14 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Schema(description = "Сущность Статусов")
-public class TaskStatusDTO {
+@Schema(description = "Сущность Метки")
+public class LabelDTO {
+
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    private Long id;
 
     @Schema(description = "Имя")
     private String name;
-
-    @Schema(description = "Слаг")
-    private String slug;
 
     @Schema(description = "Дата создания")
     private LocalDate createdAt;
