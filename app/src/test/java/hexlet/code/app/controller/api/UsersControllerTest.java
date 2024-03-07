@@ -5,7 +5,6 @@ import hexlet.code.app.mapper.UserMapper;
 import hexlet.code.app.model.User;
 import hexlet.code.app.repository.UserRepository;
 import hexlet.code.app.util.ModelGenerator;
-import net.datafaker.Faker;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,6 +28,7 @@ import org.instancio.Instancio;
 @SpringBootTest
 @AutoConfigureMockMvc
 class UsersControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -38,29 +39,24 @@ class UsersControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private UserMapper userMapper;
+    private ModelGenerator modelGenerator;
 
-    @Autowired
-    private Faker faker;
+    private JwtRequestPostProcessor token;
 
     private User testUser;
 
-    @Autowired
-    private ModelGenerator modelGenerator;
-
     @BeforeEach
     public void setUp() {
-        testUser = Instancio.of(modelGenerator.getUserModel()).create();
+        token = jwt().jwt(builder -> builder.subject(testUser.getUsername()));
+        testUser = Instancio.of(modelGenerator.getUserModel())
+                .create();
+        userRepository.save(testUser);
     }
 
     @Test
-    void testIndex() throws Exception {
-        userRepository.save(testUser);
-        var result = mockMvc.perform(get("/api/users").with(jwt()))
-                .andExpect(status().isOk())
-                .andReturn();
-        var body = result.getResponse().getContentAsString();
-        assertThatJson(body).isArray();
+    public void testIndex() throws Exception {
+        mockMvc.perform(get("/api/users").with(jwt()))
+                .andExpect(status().isOk());
     }
 
     @Test

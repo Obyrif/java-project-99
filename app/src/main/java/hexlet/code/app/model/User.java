@@ -29,6 +29,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @Setter
 public class User implements UserDetails, BaseEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @ToString.Include
@@ -58,16 +59,6 @@ public class User implements UserDetails, BaseEntity {
 
     @CreatedDate
     private LocalDate createdAt; // дата создания (регистрации) пользователя
-
-    public void addTask(Task task) {
-        tasks.add(task);
-        task.setAssignee(this);
-    }
-
-    public void removeTask(Task task) {
-        tasks.remove(task);
-        task.setAssignee(null);
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

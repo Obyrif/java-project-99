@@ -12,6 +12,10 @@ spring:
       ansi:
         enabled: always
 
+sentry:
+  dsn: https://ace61c17b2e767fa457eb1b29f0c53b9@o4506870776856576.ingest.us.sentry.io/4506870792978432
+  traces-sample-rate: 1.0
+
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem

@@ -6,6 +6,7 @@ plugins {
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
     id("io.freefair.lombok") version "8.4"
+    id ("io.sentry.jvm.gradle") version "4.3.1"
 }
 
 group = "hexlet.code"
@@ -25,6 +26,14 @@ configurations {
     }
 }
 
+sentry {
+    includeSourceContext = true
+
+    org = "obyrif"
+    projectName = "java-spring-boot"
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
+
 repositories {
     mavenCentral()
 }
@@ -33,6 +42,8 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
     annotationProcessor("org.projectlombok:lombok")
+
+    implementation ("io.sentry:sentry-spring-boot-starter-jakarta:7.5.0")
 
     implementation("org.openapitools:jackson-databind-nullable:0.2.6")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
@@ -52,10 +63,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    implementation ("org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0")
-    implementation ("io.swagger.core.v3:swagger-annotations:2.2.8")
-    implementation ("org.springdoc:springdoc-openapi-ui:1.6.14")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 
     testImplementation("org.springframework.security:spring-security-test")
 
