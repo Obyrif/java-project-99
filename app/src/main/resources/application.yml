@@ -13,7 +13,7 @@ spring:
         enabled: always
 
 sentry:
-  dsn: https://ace61c17b2e767fa457eb1b29f0c53b9@o4506870776856576.ingest.us.sentry.io/4506870792978432
+  dsn: https://3ca33acf06f1e0fdd51bc5c6aabb14d7@o4506870776856576.ingest.us.sentry.io/4506874637516800
   traces-sample-rate: 1.0
 
 rsa:
